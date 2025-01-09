@@ -1,0 +1,186 @@
+<!-- profile.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ваши Транзакции</title>
+    <!-- Подключение внешнего CSS -->
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+    <!-- Подключение Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            width: 50%;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .close-btn {
+            color: #aaa;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Transactions</h1>
+        <div class="user-info">
+            <p>Welcome, {{ user.username }}!</p>
+            <p>Your ID: {{ user_id }}</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.date }}</td>
+                        <td>{{ transaction.category }}</td>
+                        <td>{{ transaction.amount }}</td>
+                        <td>{{ transaction.description }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="no-transactions">You have no transactions</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'logout' %}">Logout</a>
+            <!-- Добавили кнопку для открытия модального окна -->
+            <a href="#" id="openModalBtn">Add Transaction</a>
+        </div>
+
+        <div id="transactionModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Add a New Transaction</h2>
+                <form id="transactionForm" method="POST" action="{% url 'add_transaction' %}">
+                    {% csrf_token %}
+                    <label for="date">Date:</label>
+                    <input type="date" name="date" id="date" required>
+                    
+                    <label for="category">Category:</label>
+                    <input type="text" name="category" id="category" placeholder="Category" required>
+                    
+                    <label for="amount">Amount:</label>
+                    <input type="number" name="amount" id="amount" step="0.01" placeholder="Amount" required>
+                    
+                    <label for="description">Description:</label>
+                    <textarea name="description" id="description" placeholder="Description"></textarea>
+                    
+                    <button type="submit">Add Transaction</button>
+                </form>
+            </div>
+        </div>       
+    </div>
+    <script src="{% static 'home/js/script.js' %}"></script>
+
+    <!-- Создание диаграмм -->
+    <script>
+        const transactions = JSON.parse(document.getElementById('transactions-data').textContent);
+    
+        // Обработка данных для диаграмм
+        const profitData = {};
+        const expensesData = {};
+    
+        transactions.forEach(transaction => {
+            const amount = parseFloat(transaction.amount);
+            const category = transaction.category;
+    
+            if (amount > 0) {
+                // Если сумма положительная, это прибыль
+                if (!profitData[category]) profitData[category] = 0;
+                profitData[category] += amount;
+            } else {
+                // Если сумма отрицательная, это затрата
+                if (!expensesData[category]) expensesData[category] = 0;
+                expensesData[category] += Math.abs(amount);
+            }
+        });
+    
+        // Данные для диаграмм
+        const profitLabels = Object.keys(profitData);
+        const profitValues = Object.values(profitData);
+    
+        const expensesLabels = Object.keys(expensesData);
+        const expensesValues = Object.values(expensesData);
+    
+        // Настройка диаграммы для прибыли
+        const profitChart = new Chart(document.getElementById("profitChart"), {
+            type: "bar",
+            data: {
+                labels: profitLabels,
+                datasets: [{
+                    label: "Profit",
+                    data: profitValues,
+                    backgroundColor: "rgba(75, 192, 192, 0.6)"
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    
+        // Настройка диаграммы для затрат
+        const expensesChart = new Chart(document.getElementById("expensesChart"), {
+            type: "bar",
+            data: {
+                labels: expensesLabels,
+                datasets: [{
+                    label: "Expenses",
+                    data: expensesValues,
+                    backgroundColor: "rgba(255, 99, 132, 0.6)"
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    
+    <!-- Внизу шаблона -->
+    {% json_script transactions "transactions-data" %}    
+</body>
+</html>

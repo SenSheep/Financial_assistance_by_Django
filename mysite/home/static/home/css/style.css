@@ -1,0 +1,151 @@
+/* style.css */
+
+/* Общие стили */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Заголовки */
+h1 {
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Информация о пользователе */
+.user-info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.user-info p {
+    margin: 5px 0;
+}
+
+/* Таблица транзакций */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Сообщение о отсутствии транзакций */
+.no-transactions {
+    text-align: center;
+    font-style: italic;
+    color: #999;
+}
+
+/* Ссылки навигации */
+.nav-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.nav-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    color: #45a049;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    width: 70%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: black;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #45a049;
+}
