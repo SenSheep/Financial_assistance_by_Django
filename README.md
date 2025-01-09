@@ -1,6 +1,6 @@
 *ENG VERSION*
 # Financial Assistant
-This is a personal finance management web application built with Django. The application allows users to track their income and expenses, visualize data through charts, and manage their transactions in an easy and organized manner.
+This is a personal finance management web application built with Django. The application allows users to track their income and expenses, visualize data through charts, and manage their transactions in an easy and organized manner. The project has a guide in notebook format. If you want to know the details of creating an application, use the guide.ipynb file.
 
 ## Features
 - User Authentication: Users can register, log in, and manage their profile.
@@ -20,7 +20,7 @@ This project is licensed under the MIT License
 ---
 *RUS VERSION*
 # Финансовый помощник
-Это веб-приложение для управления личными финансами, созданное с помощью Django. Приложение позволяет пользователям отслеживать свои доходы и расходы, визуализировать данные с помощью диаграмм и управлять своими транзакциями простым и организованным способом.
+Это веб-приложение для управления личными финансами, созданное с помощью Django. Приложение позволяет пользователям отслеживать свои доходы и расходы, визуализировать данные с помощью диаграмм и управлять своими транзакциями простым и организованным способом. Проект имеет руководство в формате рабочей тетради. Если вы хотите узнать подробности создания приложения, воспользуйтесь файлом guide.ipynb.
 
 ## Функции
 - Аутентификация пользователя: пользователи могут регистрироваться, входить в систему и управлять своим профилем.
