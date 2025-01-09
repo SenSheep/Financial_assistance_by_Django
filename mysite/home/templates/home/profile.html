@@ -103,84 +103,27 @@
                     <button type="submit">Add Transaction</button>
                 </form>
             </div>
-        </div>       
+        </div>      
+        <div class="charts">
+            <h2>Диаграммы</h2>
+            <div class="chart">
+                <h3>Доходы</h3>
+                {% if income_chart %}
+                <img src="data:image/png;base64,{{ income_chart }}" alt="Диаграмма доходов">
+                {% else %}
+                <p>Нет данных для отображения доходов</p>
+                {% endif %}
+            </div>
+            <div class="chart">
+                <h3>Затраты</h3>
+                {% if expense_chart %}
+                <img src="data:image/png;base64,{{ expense_chart }}" alt="Диаграмма затрат">
+                {% else %}
+                <p>Нет данных для отображения затрат</p>
+                {% endif %}
+            </div>
+        </div> 
     </div>
     <script src="{% static 'home/js/script.js' %}"></script>
-
-    <!-- Создание диаграмм -->
-    <script>
-        const transactions = JSON.parse(document.getElementById('transactions-data').textContent);
-    
-        // Обработка данных для диаграмм
-        const profitData = {};
-        const expensesData = {};
-    
-        transactions.forEach(transaction => {
-            const amount = parseFloat(transaction.amount);
-            const category = transaction.category;
-    
-            if (amount > 0) {
-                // Если сумма положительная, это прибыль
-                if (!profitData[category]) profitData[category] = 0;
-                profitData[category] += amount;
-            } else {
-                // Если сумма отрицательная, это затрата
-                if (!expensesData[category]) expensesData[category] = 0;
-                expensesData[category] += Math.abs(amount);
-            }
-        });
-    
-        // Данные для диаграмм
-        const profitLabels = Object.keys(profitData);
-        const profitValues = Object.values(profitData);
-    
-        const expensesLabels = Object.keys(expensesData);
-        const expensesValues = Object.values(expensesData);
-    
-        // Настройка диаграммы для прибыли
-        const profitChart = new Chart(document.getElementById("profitChart"), {
-            type: "bar",
-            data: {
-                labels: profitLabels,
-                datasets: [{
-                    label: "Profit",
-                    data: profitValues,
-                    backgroundColor: "rgba(75, 192, 192, 0.6)"
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    
-        // Настройка диаграммы для затрат
-        const expensesChart = new Chart(document.getElementById("expensesChart"), {
-            type: "bar",
-            data: {
-                labels: expensesLabels,
-                datasets: [{
-                    label: "Expenses",
-                    data: expensesValues,
-                    backgroundColor: "rgba(255, 99, 132, 0.6)"
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
-    
-    <!-- Внизу шаблона -->
-    {% json_script transactions "transactions-data" %}    
 </body>
 </html>
